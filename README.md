@@ -19,7 +19,9 @@ rebuildImage()
 --------------------------
 after running k-means clustering on the data, we set each point's colour to its centroid's colour.
 
-![alt tag](http://i.imgur.com/2alDxZZ.jpg)
+rebuildGif()
+--------------------------
+timelapse gif version of rebuildImage()
 
 TODO
 ==========================

@@ -18,5 +18,6 @@ public:
     vector<point> getPalette();
     void displayPalette();
     void rebuildImage();
+    void rebuildGif();
 };
 

@@ -60,3 +60,23 @@ void kimages::rebuildImage(){
         main_disp.wait();
     }
 }
+
+void kimages::rebuildGif(){
+	CImg<float> img_temp(image.width(), image.height(), 1, 3);
+	vector<clusters> centers = worker->getClusters(image.height(), image.width());
+	CImgList<float> images;
+	for(int i=0;i<centers.size();i++){
+		for(int j=0;j<centers[i].pts.size();j++){
+			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 0) = centers[i].center.x;
+			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 1) = centers[i].center.y;
+			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 2) = centers[i].center.z;
+			// Need to make even
+			if((centers[i].pts.size() % (j+1)) == 0){
+				images.push_back(img_temp);
+			}
+		}
+		images.push_back(img_temp);
+	}
+	images.push_back(img_temp);
+	images.save_gif_external("rebuild.gif",25,0);
+}
