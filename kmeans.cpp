@@ -21,9 +21,9 @@ float clusters::recenter() {
     z0 /= pts.size();
 
     point new_cent = point();
-    new_cent.x = (int)x0;
-    new_cent.y = (int)y0;
-    new_cent.z = (int)z0;
+    new_cent.x = x0;
+    new_cent.y = y0;
+    new_cent.z = z0;
     center = new_cent;
     return o_center.distanceTo(center);
 }
@@ -41,29 +41,27 @@ vector<point> kmeans::cluster(int ih, int iw, bool t) {
 	
 	int i = 0;
     while(i < k) {
-		t_c.center = init_data[rand()%init_data.size()];
+		int r = rand()%init_data.size();
+		t_c.center = init_data[r];
 		centers.push_back(t_c);
 		i++;
 	}
 	
     while(true) {
+		for(int p=0; p < centers.size(); p++) {
+			centers[p].pts.push_back(centers[p].center);
+		}
         for(int i=0;i<init_data.size();i++){
 			float min_distance = 9999999;
 			int q;
-			point temp_pt = point();
-			temp_pt.x = init_data[i].x;
-			temp_pt.y = init_data[i].y;
-			temp_pt.z = init_data[i].z;
-			temp_pt.col = init_data[i].col;
-			temp_pt.row = init_data[i].row;
 			for(int p=0; p < centers.size(); p++) {
-				float distance = temp_pt.distanceTo(centers[p].center);
+				float distance = init_data[i].distanceTo(centers[p].center);
 				if(distance < min_distance) {
 					min_distance = distance;
 					q = p;
 				}
 			}
-			centers[q].pts.push_back(temp_pt);
+			centers[q].pts.push_back(init_data[i]);
 		}
         float max_delta = -9999999;
         for(int p=0; p < centers.size(); p++) {
@@ -73,7 +71,7 @@ vector<point> kmeans::cluster(int ih, int iw, bool t) {
                 max_delta = dist_moved;
             }
         }
-        if(max_delta < delta) {
+        if(max_delta <= delta) {
             for(int p=0; p < centers.size(); p++) {
 				if(t == true){
 					cout << "RGB: (" << centers[p].center.x << "," << centers[p].center.y << "," << centers[p].center.z << ") ------- ";
