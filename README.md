@@ -15,8 +15,13 @@ displayPalette()
 --------------------------
 displays the original image with its corresponding palette superimposed.
 
+rebuildImage()
+--------------------------
+after running k-means clustering on the data, we set each point's colour to its centroid's colour.
+
+![alt tag](http://i.imgur.com/2alDxZZ.jpg)
+
 TODO
 ==========================
-- Rebuilding image based on centroid colours.
 - Naive GIF compression based on N centroid colours.
 - Change the palettes of other images to fit new ones.

@@ -8,20 +8,24 @@ using namespace std;
 
 struct point {
         float x, y, z;
+        int col, row;
         float distanceTo(point b);
 	};
-
-class kmeans {
-public:
-    struct clusters {
+	
+struct clusters {
         point center;
         vector<point> pts;
         float recenter();
     };
-    kmeans(int*** map, int k);
-    vector<point> cluster();
     
+class kmeans {
+public:
+    kmeans(int k);
+    vector<point> cluster(int ih, int iw);
+    vector<clusters> getClusters(int ih, int iw);
+    void pushPointData(point a);
 private:
-    int*** map;
+	vector<point> init_data;
+	vector<clusters> final_centers;
     int k;
 };
