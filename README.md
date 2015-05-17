@@ -31,3 +31,4 @@ TODO
 ==========================
 - Change the palettes of other images to fit new ones.
 - Video colour change
+- Fix for gifs with matte backgrounds or transparency.
