@@ -21,8 +21,8 @@ struct clusters {
 class kmeans {
 public:
     kmeans(int k);
-    vector<point> cluster(int ih, int iw);
-    vector<clusters> getClusters(int ih, int iw);
+    vector<point> cluster(int ih, int iw, bool t);
+    vector<clusters> getClusters(int ih, int iw, bool t);
     void pushPointData(point a);
 private:
 	vector<point> init_data;

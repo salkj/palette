@@ -32,7 +32,7 @@ kmeans::kmeans(int k) {
     this->k = k;
 }
 
-vector<point> kmeans::cluster(int ih, int iw) {
+vector<point> kmeans::cluster(int ih, int iw, bool t) {
 	vector<point> palette;
     float delta = 0.001;
     vector<clusters> centers;
@@ -75,8 +75,10 @@ vector<point> kmeans::cluster(int ih, int iw) {
         }
         if(max_delta < delta) {
             for(int p=0; p < centers.size(); p++) {
-                cout << "RGB: (" << centers[p].center.x << "," << centers[p].center.y << "," << centers[p].center.z << ") ------- ";
-                printf("#%02x%02x%02x\n", (int)centers[p].center.x,(int)centers[p].center.y,(int)centers[p].center.z);
+				if(t == true){
+					cout << "RGB: (" << centers[p].center.x << "," << centers[p].center.y << "," << centers[p].center.z << ") ------- ";
+					printf("#%02x%02x%02x\n", (int)centers[p].center.x,(int)centers[p].center.y,(int)centers[p].center.z);
+				}
                 palette.push_back(centers[p].center);
             }
             this->final_centers = centers;
@@ -88,9 +90,9 @@ vector<point> kmeans::cluster(int ih, int iw) {
     }
 }
 
-vector<clusters> kmeans::getClusters(int ih, int iw){
+vector<clusters> kmeans::getClusters(int ih, int iw, bool t){
 	if(this->final_centers.size() == 0){
-		this->cluster(ih, iw);
+		this->cluster(ih, iw, t);
 	}
 	return this->final_centers;
 }

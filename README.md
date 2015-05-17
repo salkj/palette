@@ -23,7 +23,11 @@ rebuildGif()
 --------------------------
 timelapse gif version of rebuildImage()
 
+reduceGif(path, k)
+--------------------------
+takes a gif and reduce its colour to its k-determined palette.
+
 TODO
 ==========================
-- Naive GIF compression based on N centroid colours.
 - Change the palettes of other images to fit new ones.
+- Video colour change

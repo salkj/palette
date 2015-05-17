@@ -18,8 +18,25 @@ kimages::kimages(string path, int k) {
     }
 }
 
+kimages::kimages(CImg<unsigned char> img, int k) {
+	k = k < 1 ? 3 : k;
+    worker = new kmeans(k);
+    this->image = img;
+    for (int r = 0; r < img.height(); r++) {
+        for (int c = 0; c < img.width(); c++) {
+			point a;
+			a.x = (int)image(c,r,0,0);
+			a.y = (int)image(c,r,0,1);
+			a.z = (int)image(c,r,0,2);
+			a.col = c;
+			a.row = r;
+			worker->pushPointData(a);
+        }
+    }
+}
+
 vector<point> kimages::getPalette() {
-	return worker->cluster(image.height(), image.width());
+	return worker->cluster(image.height(), image.width(), true);
 }
 
 void kimages::displayPalette(){
@@ -38,15 +55,11 @@ void kimages::displayPalette(){
 		p++;
 	}
 	img_temp.save("palette.bmp");
-	CImgDisplay main_disp(img_temp, "Palette");
-	while (!main_disp.is_closed()){
-        main_disp.wait();
-    }
 }
 
 void kimages::rebuildImage(){
 	CImg<float> img_temp(image.width(), image.height(), 1, 3);
-	vector<clusters> centers = worker->getClusters(image.height(), image.width());
+	vector<clusters> centers = worker->getClusters(image.height(), image.width(), true);
 	for(int i=0;i<centers.size();i++){
 		for(int j=0;j<centers[i].pts.size();j++){
 			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 0) = centers[i].center.x;
@@ -55,15 +68,11 @@ void kimages::rebuildImage(){
 		}
 	}
 	img_temp.save("rebuild.bmp");
-	CImgDisplay main_disp(img_temp, "Image Rebuild");
-	while (!main_disp.is_closed()){
-        main_disp.wait();
-    }
 }
 
 void kimages::rebuildGif(){
 	CImg<float> img_temp(image.width(), image.height(), 1, 3);
-	vector<clusters> centers = worker->getClusters(image.height(), image.width());
+	vector<clusters> centers = worker->getClusters(image.height(), image.width(), true);
 	CImgList<float> images;
 	for(int i=0;i<centers.size();i++){
 		for(int j=0;j<centers[i].pts.size();j++){
@@ -79,4 +88,27 @@ void kimages::rebuildGif(){
 	}
 	images.push_back(img_temp);
 	images.save_gif_external("rebuild.gif",25,0);
+}
+
+void kimages::reduceGif(string path, int k){
+	CImgList<unsigned char> images(path.c_str());
+	CImgList<unsigned char> new_gif;
+	for(int i=0;i<images.size();i++){
+		kimages temp(images[i], k);
+		new_gif.push_back(temp.reduceImage());
+	}
+	new_gif.save_gif_external("reducedGif.gif",15,0);
+}
+
+CImg<unsigned char> kimages::reduceImage(){
+	CImg<unsigned char> img_temp(image.width(), image.height(), 1, 3);
+	vector<clusters> centers = worker->getClusters(image.height(), image.width(), false);
+	for(int i=0;i<centers.size();i++){
+		for(int j=0;j<centers[i].pts.size();j++){
+			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 0) = centers[i].center.x;
+			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 1) = centers[i].center.y;
+			img_temp(centers[i].pts[j].col, centers[i].pts[j].row, 0, 2) = centers[i].center.z;
+		}
+	}
+	return img_temp;
 }
