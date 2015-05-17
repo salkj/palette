@@ -9,7 +9,7 @@ Functions
 
 getPalette()
 --------------------------
-returns a vector of point structs that contain r,g,b values.
+returns a vector of point structs that contain the r,g,b values of the palette.
 
 displayPalette()
 --------------------------
