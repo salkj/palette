@@ -27,6 +27,22 @@ reduceGif(path, k)
 --------------------------
 takes a gif and reduce its colour to its k-determined palette.
 
+Dependencies
+==========================
+- CImg 1.6.x
+
+Sample
+==========================
+```
+#include "kimages.h"
+
+int main(){
+  kimages foo("\pictures\image.bmp", 5);
+  foo.displayPalette();
+  return 0;
+}
+```
+
 TODO
 ==========================
 - Change the palettes of other images to fit new ones.
