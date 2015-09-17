@@ -2,7 +2,7 @@ Palette
 ==========================
 k-means clustering is a method of vector quantization, originally from signal processing, that is popular for cluster analysis in data mining. k-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. This results in a partitioning of the data space into Voronoi cells.
 
-![alt tag](http://i.imgur.com/7ftALSy.png?1)
+![alt tag](http://i.imgur.com/80Qxml2.gifv)
 
 Functions
 ==========================
@@ -14,6 +14,8 @@ returns a vector of point structs that contain the r,g,b values of the palette.
 displayPalette()
 --------------------------
 displays the original image with its corresponding palette superimposed.
+
+![alt tag](http://i.imgur.com/7ftALSy.png?1)
 
 rebuildImage()
 --------------------------
