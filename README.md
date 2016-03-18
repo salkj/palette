@@ -35,7 +35,7 @@ Dependencies
 
 Sample
 ==========================
-```
+```c++
 #include "kimages.h"
 
 int main(){
